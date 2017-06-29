@@ -1,0 +1,16 @@
+Classe CommentController
+
+método----> insertReaction(Request $request)
+operação--> insert na tabela 'comment_reactions'
+linha-----> 50
+
+método----> readReaction(Request $request)
+operação--> select na tabela 'comment_reactions'
+linha-----> 60
+
+método----> updatetReaction(Request $request)
+operação--> update na tabela 'comment_reactions'
+linha-----> 70
+
+
+
