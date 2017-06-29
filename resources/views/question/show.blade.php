@@ -5,20 +5,10 @@
 <div class="row">
 	<div class="col-md-12">
 		@include('partials.box.question-box')
-		<hr>
+		@include('partials.box.solution-box')
 		@include('partials.box.proposal-box')
-		<!-- 
-			Proposal Text-Area
-		-->
-		{{ Form::open(array('route' => 'proposal.store', 'method'=>'POST')) }}
-			{{ Form::label('conteudo', 'Conteúdo') }}
-      {{ Form::textarea('content', Request::old('content'), array('class' => 'form-control')) }}
-      {{ Form::hidden('question_id', $question->id) }}
-
-   		{{ Form::submit('Criar a questão', array('class' => 'btn btn-primary')) }}
-    {{ Form::close() }}
+		
     	@include('partials.modals.delete_modal')
-
     	@include('partials.modals.create_proposal_modal')
 
 	</div>

@@ -1,4 +1,4 @@
-@if($question->author['id']!=Auth::user()->id)
+@if($proposal->author['id']!=Auth::user()->id)
 	<button type="button" class="btn btn-report" action="{{URL::route('proposal.report', $proposal->id)}}" method="post">
 		<span class="glyphicon glyphicon-ban-circle"></span> 
 	</button>

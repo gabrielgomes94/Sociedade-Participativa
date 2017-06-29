@@ -1,0 +1,142 @@
+.proposals{	
+
+}
+.proposals-hide-show-button{		
+	position: relative;
+	top: 50%;
+}
+.proposals-title{
+	
+}
+.proposals-proposal{
+
+}
+.proposal{		
+	padding: 10px;
+	border-bottom: 1px dotted black;
+}
+
+.proposal-author{
+	margin-left: 5px;
+}
+
+.proposal-content{		
+	font-size: 16px;
+	padding: 10px;
+}
+
+.proposal-footer{	
+	margin: 5px;	
+}
+.proposal-footer-reaction{	
+	padding: 0px;	
+	padding-top: 0px;
+}
+.proposal-footer-buttons{	
+	margin-top: 10px;	
+}
+
+.proposal-comments{	
+	padding-top: 5px;
+	margin-bottom: 15px;
+}
+.proposal-comments-header{	
+	margin: 5px;
+	padding-top: 5px;
+	border-top: 1px solid #a0a0a0;
+	position: relative;
+	
+	height: 30px;	
+}
+.proposal-comments-header-title{	
+
+	position: relative;
+	padding: 0px;
+	padding-left: 20px;
+	margin: 0px;
+	left: 0%;
+	top: 0%;
+	height: 100%;
+	font-family: 'Source Sans Pro', sans-serif;
+	font-size: 1.5em;	
+}
+.proposal-comments-header-hide-btn{	
+	position: relative;
+	left: 0%;
+	top: 0%;
+}
+.proposal-comments-comment-footer{
+	
+}
+.proposal-comments-comment{
+	border-left: 3px solid gray;
+	border-top: 3px solid gray;	
+	margin-bottom: 10px;
+}
+.proposal-comments-comment-author{
+	margin-left: 10px;
+	margin-right: 10px;
+	margin-top: 10px;
+	
+}
+.proposal-comments-comment-content{
+	margin-left: 10px;
+	margin-right: 10px;	
+	font-size: 14px;
+	
+}
+.proposal-comments-comment-header-type{	
+	position: relative;
+	left: 0%;
+	top: 0%;
+}
+.proposal-comments-comment-header-type-icon{	
+	position: relative;
+	left: 50%;
+	top: 0%;
+	width: 100%;
+}
+.proposal-comments-comment-content-text{
+	
+}
+
+.proposal-comments-comment-footer{		
+	padding: 0px;
+	margin-left: 10px;
+	margin-right: 10px;
+}
+
+.proposal-comments-comment-footer-reaction{		
+	padding-left: 10px;
+	position: relative;
+	left: 0%;
+	top: 0%;	
+	width: 50%;
+}
+.proposal-comments-comment-footer-reaction-bar{	
+	height: 20px;
+	position: relative;
+	left: 0%;
+	top: 0%;	
+}
+.proposal-comments-comment-footer-reaction-button{	
+	position: relative;
+	left: 0%;
+	width: 50%;
+}
+.proposal-comments-comment-footer-buttons{		
+	
+}
+
+.proposal-comment-reaction-buttons{
+	position: relative;
+	left: 0%;
+	top: 50%;
+}
+.proposal-comment-reaction-buttons-label{
+	margin-top: 0px;
+}
+.proposal-comment-reaction-bar{	
+	margin-bottom: 0px;
+	padding-bottom: 0px;
+}

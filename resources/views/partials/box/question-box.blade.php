@@ -9,7 +9,7 @@
 				<p>por <a href="{{URL::route('user.show', $question->author['id']) }}">{{$question->author['name']}} {{$question->author['lastname']}}</a> às {{$question->created_at}} </p>
 			</div>
 			<div class="col-md-2">					
-				<button type="button" class="btn btn-hide-show question-header-hide-show-button pull-right" action="#">
+				<button type="button" class="btn btn-hide-show question-header-hide-show-button pull-right" action="#" data-value="question">
 					<span class="glyphicon glyphicon-chevron-up"> </span>
 				</button>										
 			</div>
@@ -78,15 +78,18 @@
 							<!-- Question-Comments-Comment -->
 							<div class="question-comments-comment">						
 								<!-- Question-Comments-Comment-Author -->									
-								<div class="question-comments-comment-author">
-									<div class="col-md-1 question-comments-comment-type">
-											<div class="question-comments-comment-content-icon">
+								<div class="question-comments-comment-header">
+									<div class="col-md-1 question-comments-comment-header-type">
+											<div class="question-comments-comment-header-type-icon">
 												<span class="glyphicon glyphicon-education"></span>
 											</div>
 									</div>
-									<i><b><p class="text-justify">por 
+									<div class="question-comments-comment-author">
+										<i><b><p class="text-justify">por 
 											<a href="{{URL::route('user.show', $comment->author['id']) }}"> {{$comment->author['name']}} {{$comment->author['lastname']}} </a>  às {{$comment->post_date}}.</p>
-									</b></i> 
+										</b></i> 
+									</div>
+									
 								</div>
 								<!-- Question-Comments-Comment-Box-Content -->
 								<div class="row question-comments-comment-content">
@@ -124,8 +127,8 @@
 							</div>
 						</div>
 						@endforeach
-						<div class="row">
-							
+						<!-- Formulário para inserção de comentários de questão -->
+						<div class="row">							
 							<div class="col-md-12">
 								<div class="form-add-question-comment" data-type="question" data-value="">					
 									<label>Escreva um comentário para a questão</label>
@@ -138,10 +141,8 @@
 											<div class="col-md-12 form-add-question-comment-options">
 												<textarea rows="2" placeholder="Escreva um comentário..." name="content" class="form-add-question-comment-box pull-right"></textarea>
 											</div>											
-										</div>
-										
-										<div class="row form-add-question-comment-options">
-											
+										</div>										
+										<div class="row form-add-question-comment-options">											
 											<div class="col-md-6">
 												<div class="form-add-question-comment-type">
 												<div class="form-add-question-comment-type-element">
@@ -155,13 +156,11 @@
 														<input type="radio" name="type" value="false">
 														<label for="type">Negativo</label>
 													</div>												
-												</div>
-												
+												</div>												
 											</div>
 											<div class="col-md-6 form-add-question-comment-submit">
 												<input type='submit' class='btn btn-primary pull-right form-add-question-comment-submit' value='Enviar'>
-											</div>
-											
+											</div>											
 										</div>																				
 									</form>							
 								</div>
