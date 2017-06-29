@@ -3,7 +3,7 @@
 
 <div class="solution">
 	<h3>Solução</h3>
-	<br>
+	<br>{{ $question->solution->content }}
 	<br>
 	<br>
 	<br>
