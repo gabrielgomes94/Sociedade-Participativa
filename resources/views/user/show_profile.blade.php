@@ -1,10 +1,7 @@
 @extends('layouts.app')
 @extends('menus.user_menu')
 @section('header_title')
-
-
-<body>        
-    <!-- if there are creation errors, they will show here -->
+    
 @stop
 @section('content')
 	<div class="row profile-info">
@@ -221,18 +218,12 @@
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 <script src="{{ URL::asset('js/hide-show.js') }}"></script>
-<script type="text/javascript">
-	$(document).ready(function(){
-		$(".btn-edit-profile-specialties").click(function(){
-			
-		});
-	});
-</script>
+
 
 <!-- <script src="{{ URL::asset('js/star-rating.js') }}"></script> -->
-@include('partials.scripts.proposal_reaction_scripts')
-@include('partials.scripts.question_reaction_scripts')
-@include('partials.scripts.comment_reaction_scripts')
+<!-- @include('partials.scripts.proposal_reaction_scripts') -->
+<!-- @include('partials.scripts.question_reaction_scripts')
+@include('partials.scripts.comment_reaction_scripts') -->
 <script type="text/javascript">
 
 

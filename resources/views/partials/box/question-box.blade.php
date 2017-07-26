@@ -41,8 +41,7 @@
 						</div>
 						<div class="col-md-2">
 							<div class="row">
-								<!-- Trigger the modal with a button -->
-								<button type="button" class="btn btn-info btn-add-proposal pull-right" data-toggle="modal" data-target="#create-modal">Escrever Proposta</button>							
+															
 							</div>
 						</div>
 						<div class="col-md-5" >
@@ -53,7 +52,10 @@
 								</div>
 								<!-- Question-Footer-Buttons -->
 								<div class="question-footer-right-buttons pull-right">
+									<!-- Trigger the modal with a button -->
+									<button type="button" class="btn btn-info btn-add-proposal" data-toggle="modal" data-target="#create-modal">Escrever Proposta</button>
 									@include('partials.buttons.user_question_buttons')
+
 								</div>									
 							</div>									
 						</div>

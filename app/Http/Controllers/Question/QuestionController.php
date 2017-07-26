@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Question;
 
 use Illuminate\Http\Request;
 //duse Illuminate\Http\Response;
@@ -23,6 +23,7 @@ use Session;
 
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Response;
+use App\Http\Controllers\Controller;
 
 class QuestionController extends Controller
 {
@@ -34,26 +35,23 @@ class QuestionController extends Controller
      *
      * @return Response
      */
-    public function index()
+    public function index(Request $request)
     {
         $questions = Question::all();
         $categories = Category::all();
         foreach ($questions as $question) {
             $question = $this->showQuestionBox($question);                
         }        
-        return view('question.index')->with('questions',$questions)->with('categories', $categories);     
+        return view('question.index')->with('questions',$questions)->with('categories', $categories);
     }
 
     /**
      * Show the form for creating a new resource.
-     *
      * @return Response
      */
     public function create()
-    {
-       	$question = Question::all(); 
-
-    	return view('question.create', compact('question'));
+    {       	
+    	return view('question.create');
     }
 
     /**
@@ -64,7 +62,7 @@ class QuestionController extends Controller
      */
     public function edit($id)
     {
-        $question = Question::findOrFail($id);        
+        $question = Question::findOrFail($id);                
         return view('question.edit')->with('question', $question);
     }
 
@@ -84,7 +82,6 @@ class QuestionController extends Controller
         // $question->status = $content[0]->status;
         // $question->deleted_at = $content[0]->deleted_at;
         $question = Question::findOrFail($id);
-
 
         $proposals = $question->proposals;  
         foreach ($proposals as $proposal) {                      
@@ -111,14 +108,18 @@ class QuestionController extends Controller
     	$inputs = array(
             'title' => $request['title'],
             'content' => $request['content'],
-            'post_date' => $datetime,
-            'post_modified_date' => '',
-            'user' => $user->id,
-            'status' => 0,
-            'city_id' => $request['city'],
+            'created_at' => $datetime,
+            'updated_at' => '',
+            'user_id' => $user->id,
+            'status' => 'sugerida',
+            'district' => '',
+            'city' => $request['city'],
+            'state' => $request['state'],
+            'country' => $request['country'],
         );
     	Question::create($inputs);
-    	return redirect()->route('user.profile', $user->id);
+    	return $this->index();
+        //redirect()->route('user.profile', $user->id);
     }
     /**
      * Update the specified resource in storage.
@@ -126,13 +127,16 @@ class QuestionController extends Controller
      * @param  int  $id
      * @return Response
      */
-    public function update(SpecialtyFormRequest $request, $id)
+    public function update(Request $request, $id)
     {
+        $datetime = Carbon::now();
         $question = Question::findOrFail($id);
         $question->fill($request->all());
+        $question->updated_at = $datetime;
         $question->save();
-        return redirect()->route('question.update', compact('question'));
+        return $this->show($question->id);
     }
+
     /**
      * Remove the specified resource from storage.
      *
@@ -144,7 +148,7 @@ class QuestionController extends Controller
         $question = Question::findOrFail($request->id);
         $question->delete();        
         //Session::flash('message', 'Deletado com sucesso');
-        return redirect()->route('question.index');
+        return $this->index();
     }
     public function search(Request $request){        
         $questions = null;
@@ -169,39 +173,7 @@ class QuestionController extends Controller
         return $question;
     }
 
-    public function insertReaction(Request $request){
-        $user = Auth::user();
-        DB::table('question_reactions')->insert(array(
-            'user_id' => $user->id,
-            'question_id' => $request->question_id,
-            'reaction' => $request->reaction
-        ));
-    }
-
-    public function readReaction(Request $request){
-        $user = Auth::user();
-        dd('eae');
-        $query = DB::table('question_reactions')->select('reaction')->where('question_id', $request->question_id)->where('user_id', $user->id)->get()->first();        
-        if($query==null){
-            return Response::json('-1');
-        } else {            
-            return Response::json($query->reaction);
-        }
-    }
-
-    public function readReactionCounting(Request $request){
-        $counting[0] = Controller::getVotesCount($request->question_id, 'question', false);
-        $counting[1] = Controller::getVotesCount($request->question_id, 'question', true);
-        $counting[2] = Controller::getVotesRate($request->question_id, 'question', true);
-        $counting[3] = Controller::getVotesRate($request->question_id, 'question', false);        
-        return $counting;
-    }
-
-    public function updateReaction(Request $request){
-        $user = Auth::user();
-        DB::table('question_reactions')->where('question_id', $request->question_id)->where('user_id', $user->id)->update(['reaction' => $request->reaction]);
-        return Response::json();   
-    }
+    
 
     public function sortQuestions(Request $request){        
         $questions = Question::all();
@@ -241,8 +213,5 @@ class QuestionController extends Controller
                 break;
         }
         return view('question.index')->with('questions',$questions)->with('categories', $categories);     
-
-
     }
-
 }

@@ -2,10 +2,10 @@
 $(document).ready(function(){
 	//Definição de variáveis
 	
-  var srcProposalInsertReaction = "{!! URL::route('proposal.insertReaction') !!}";  
-  var srcProposalReadAvgReactions = "{!! URL::route('proposal.getAvgReactions') !!}";  
-	var srcProposalReadReaction = "{!! URL::route('proposal.readReaction') !!}";
-  var srcProposalUpdateReaction = "{!! URL::route('proposal.updateReaction') !!}";
+  var srcProposalInsertReaction = "{!! URL::route('proposal.insertReaction', $question->id) !!}";  
+  var srcProposalReadAvgReactions = "{!! URL::route('proposal.getAvgReactions', $question->id) !!}";  
+	var srcProposalReadReaction = "{!! URL::route('proposal.readReaction', $question->id) !!}";
+  var srcProposalUpdateReaction = "{!! URL::route('proposal.updateReaction', $question->id) !!}";
 	
 	var j = {!! json_encode($proposals) !!};					
 	defaultColorStars(j);

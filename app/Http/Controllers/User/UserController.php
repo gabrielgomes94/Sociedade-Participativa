@@ -1,21 +1,21 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\User;
 
+use App\Citizen;
+use App\Comment;
 use App\CommentProposal;
 use App\CommentQuestion;
-use App\Comment;
+use App\Http\Controllers\Comment\CommentController;
+use App\Http\Controllers\Controller;
+use App\Http\Controllers\Proposal\ProposalController;
+use App\Http\Controllers\Question\QuestionController;
 use App\Proposal;
 use App\Question;
 use App\Specialty;
 use App\SpecialtyUser;
 use App\User;
 use App\UserSpecialty;
-use App\Http\Controllers\QuestionController;
-use App\Http\Controllers\ProposalController;
-use App\Http\Controllers\CommentProposalController;
-use App\Http\Controllers\CommentQuestionController;
-use App\Http\Controllers\CommentController;
 use Auth;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -65,43 +65,28 @@ class UserController extends Controller
 
     public function show($id){     
         $user = User::find($id);
-        $specialties = $user->specialties;                
-        $questions = Question::where('user_id', $user->id)->get();
-        $proposals = Proposal::where('user_id', $user->id)->get();        
-        $comments = Comment::where('user_id', $user->id)->get();
+
         
-        setlocale(LC_TIME, '');
-        $dt = Carbon::parse($user->birthday);
-        $user->birthday = $dt->formatLocalized('%d de %B de %Y');
-        $user->age = $dt->diffInYears();
 
-        /**
-         *  Question
-         *  Este bloco formata a data da questão e suas reações
-         * */
-        foreach($questions as $question){
-            $question = QuestionController::showQuestionBox($question);                
+        switch($user->type)
+        {
+            case "common":
+                $citizen = new Citizen;
+                $citizen = $user;                        
+                return CitizenController::show($citizen);
+            break;
+            case "manager":
+
+            break;
+            case "moderator":
+
+            break;
+            case "admin":
+
+            break;
         }
 
-        /**
-         * Proposal
-         * Este bloco formata a data da proposta e suas reações         
-         * */        
-        foreach($proposals as $proposal){
-            $proposal = ProposalController::showProposalBox($proposal);       
-            dd($proposal->author);
-        }
-
-        /**
-         * Comments
-         * Este bloco formata os atributos dos comentários
-         * */
-        foreach($comments as $comment){
-            $comment = CommentController::showCommentBox($comment);
-            
-        }
-
-        return view('user.show_profile')->with('user', $user)->with('specialties', $specialties)->with('questions', $questions)->with('proposals', $proposals)->with('comments_proposal')->with('comments_question')->with('comments', $comments);
+        
     }
 
     public function store(Request $request)

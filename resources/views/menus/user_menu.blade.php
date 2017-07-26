@@ -2,10 +2,10 @@
     <div class="row">
             <nav class="navbar navbar menu">
                 <div class="navbar-header">
-                    <a class="navbar-brand" href="{{ URL::route('user.show', Auth::user()->id) }}"> {{Auth::user()->name}}</a>
+                    <a class="navbar-brand" href="{{ URL::route('user.profile', Auth::user()->id) }}"> {{Auth::user()->name}}</a>
                 </div>
                 <ul class="nav navbar-nav">
-                    <li><a href="{{ URL::route('user.show', Auth::user()->id)}}" class="menuZ">Perfil</a></li>
+                    <li><a href="{{ URL::route('user.profile', Auth::user()->id)}}" class="menuZ">Perfil</a></li>
                     <li><a href="{{ URL::route('question.index') }}">Postagens</a></li>
                     <li><a href="{{ URL::route('question.create', Auth::user()->id) }}">Criar   Questão</a></li>
 

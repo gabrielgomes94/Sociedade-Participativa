@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Auth;
 
 use App\User;
 use App\Http\Controllers\Controller;
+use Carbon\Carbon;
+use DateTime;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
 
@@ -48,9 +50,10 @@ class RegisterController extends Controller
     protected function validator(array $data)
     {
         return Validator::make($data, [
-            'name' => 'required|max:255',
-            'email' => 'required|email|max:255|unique:users',
-            'password' => 'required|min:6|confirmed',
+            'name' => 'required|max:50',
+            'lastname' =>'max:100',
+            'email' => 'required|email|max:200|unique:users',
+            'password' => 'required|min:6|max:255|confirmed',
         ]);
     }
 
@@ -62,10 +65,14 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
+        $birthday = new Carbon();
+        $birthday->setDate($data['year'], $data['month'], $data['day']);        
         return User::create([
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => bcrypt($data['password']),
+            'gender' => $data['gender'],      
+            'birthday' => $birthday,
             'city' => $data['city'],
             'state' => $data['state'],
             'country' => $data['country'],

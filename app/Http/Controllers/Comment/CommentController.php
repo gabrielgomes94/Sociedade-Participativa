@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Comment;
 
 use Illuminate\Http\Request;
 use Auth;
@@ -14,7 +14,7 @@ use App\Comment;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Response;
 
-
+use App\Http\Controllers\Controller;
 class CommentController extends Controller
 {
 
@@ -26,12 +26,11 @@ class CommentController extends Controller
         $this->store($request);
 	}
 
-	public function store(Request $request){        
-        dd($request);
+	public function store(Request $request){                
         $question_controller = new QuestionController();
         $datetime = Carbon::now();
         $inputs = array(
-            'author_id' => Auth::user()->id,
+            'user_id' => Auth::user()->id,
             'commentable_id' => $request['commentable_id'],
             'commentable_type' => $request['commentable_type'],
             'content' => $request['content'],
@@ -80,6 +79,7 @@ class CommentController extends Controller
 	}
 
 	public function readReaction(Request $request){
+        dd('d');
 		$user = Auth::user();
         $query = DB::table('comment_reactions')->select('reaction')->where('comment_id', $request->comment_id)->where('user_id', $user->id)->get()->first();        
         if($query==null){

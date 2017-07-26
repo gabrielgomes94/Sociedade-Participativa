@@ -32,14 +32,11 @@ class Question extends Model
     public function comments(){
         return $this->morphMany('App\Comment', 'commentable');
     }
-    public function moderator(){
-        return $this->belongsToMany('App\User', 'moderator_questions');
+    public function moderators(){
+        return $this->belongsToMany('App\Moderator', 'moderator_questions');
     }
     public function proposals(){
         return $this->hasMany('App\Proposal');
-    }
-    public function question_votes(){
-        return $this->belongsToMany('App\User', 'question_reactions');
     }
     public function reports(){
         return $this->morphMany('App\Report', 'reportable');

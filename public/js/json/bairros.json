@@ -1,4 +1,4 @@
-{
+[{
       "sigla": "MG",
       "estado": "Minas Gerais",
       "cidade": "Itajubá",
@@ -60,4 +60,5 @@
         "São José do Rio Manso",
         "Sao Pedro"
       ]
-    },
+    }
+]

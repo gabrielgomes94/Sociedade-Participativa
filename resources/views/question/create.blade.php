@@ -31,29 +31,42 @@
                 {{ Form::label('conteudo', 'Conteúdo') }}
                 {{ Form::textarea('content', Request::old('content'), array('class' => 'form-control')) }}
             </div>
+
+
             <div class="panel-body row form-group">
-                <div class="col-md-4">
-                    <label for="title">Selecionar País:</label>
+                <div class="col-md-3">
+                    <label for="country">Selecionar País:</label>
                     <select id="country" name="country" class="form-control location-combo-box">
                         
                         <option value="Brasil">Brasil </option>
                     </select>                                
                 </div>
-                <div class=" col-md-4  ">
-                    <label for="title">Select Estado:</label>
+                <div class=" col-md-3">
+                    <label for="state">Selecionar Estado:</label>
                     <select name="state" id="state" class="form-control location-combo-box">
                         <option value="{{ Auth::user()->state}}"> {{Auth::user()->state}} </option>
                     </select>
                 </div>         
-                <div class=" col-md-4  ">
-                    <label for="title">Selecionar Cidade:</label>
+                <div class=" col-md-3">
+                    <label for="city">Selecionar Cidade:</label>
                     <select name="city" id="city" class="form-control location-combo-box">
                     <option value="{{Auth::user()->city}}"> {{Auth::user()->city}} </option>
                     </select>
                 </div>
+                <div class=" col-md-3">
+                    <label for="district">Selecionar Bairro:</label>
+                    <select name="district" id="district" class="form-control location-combo-box">
+                    <option value="{{Auth::user()->city}}"> {{Auth::user()->district}} </option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="panel panel-body">
+
             </div>
             
             {{ Form::submit('Criar a questão', array('class' => 'btn btn-primary')) }}
+            
         {{ Form::close() }}
     </div>
 @stop

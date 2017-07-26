@@ -6,13 +6,7 @@
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
             <div class="panel panel-default">
-                {{ Form::open(array('route' => 'user.search', 'method'=>'GET')) }}
-                <div class="form-group">
-                    {{ Form::label('search user', 'Buscar Usuário') }}
-                    {{ Form::text('search', Request::old('search'), array('class' => 'form-control')) }}
-
-                    {{ Form::submit('Buscar', array('class' => 'btn btn-primary')) }}
-                {{ Form::close() }}
+                
                 </div>
                 <div class="panel-heading">Dashboard</div>
                 <div class="panel-body">

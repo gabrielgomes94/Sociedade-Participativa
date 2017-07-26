@@ -78,6 +78,6 @@
 <!-- <script src="{{ URL::asset('js/hide-show.js') }}"></script>    -->
 <script type="text/javascript">
 	$(document).ready(function(){
-		$('.filter-box').hide();
+		//$('.filter-box').hide();
 	});
 </script>

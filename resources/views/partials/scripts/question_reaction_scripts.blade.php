@@ -6,10 +6,10 @@ $(document).ready(function(){
    * 
    * @type {String}
    */
-  var srcQuestionInsertReaction = "{!! URL::route('question.insertReaction') !!}";
-  var srcQuestionReadReaction = "{!! URL::route('question.readReaction') !!}";
-  var srcQuestionUpdateReaction = "{!! URL::route('question.updateReaction') !!}";
-  var srcQuestionReadReactionCounting = "{!! URL::route('question.readReactionCounting') !!}";  
+  var srcQuestionInsertReaction = "{!! URL::route('question.insertReaction', $question->id) !!}";
+  var srcQuestionReadReaction = "{!! URL::route('question.readReaction', $question->id) !!}";  
+  var srcQuestionUpdateReaction = "{!! URL::route('question.updateReaction', $question->id) !!}";
+  var srcQuestionReadReactionCounting = "{!! URL::route('question.readReactionCounting', $question->id) !!}";  
 
   $('.question-box').each(function(){
     var element = $(this);
@@ -27,14 +27,15 @@ $(document).ready(function(){
   $('.question-thumbs-up').click(function (){    
     $(this).next().css("color","#fff").css("background-color", "#B22222");
     $(this).css("color","#fff").css("background-color", "#006400");
-    var questionID = $(this).parents('.question-box').data("value");    
+    var questionID = $(this).parents('.question-box').data("value");
+    console.log(questionID);
     var reaction = -1;
     $.get(srcQuestionReadReaction, { question_id : questionID }, function(data){
       if(data==-1){
         $.ajax({
           headers: {
-        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-    },
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+          },
           url: srcQuestionInsertReaction,
           dataType: "json",
           type: "POST",
@@ -52,8 +53,8 @@ $(document).ready(function(){
         if(data==false){
           $.ajax({
             headers: {
-        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-    },
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+          },
           url: srcQuestionUpdateReaction,
           dataType: "json",
           type: "PUT",
@@ -73,8 +74,67 @@ $(document).ready(function(){
           $('#question-upvotes-' + questionID).html(data[1]);
           $('#question-progress-bar-like-'+questionID).width(data[2]+'%');
           $('#question-progress-bar-dislike-'+questionID).width(data[3]+'%');
-  		});        
+      });        
     });
+  });
+
+
+  $('.question-thumbs-up').click(function (){    
+    // $(this).next().css("color","#fff").css("background-color", "#B22222");
+    // $(this).css("color","#fff").css("background-color", "#006400");
+    // var questionID = $(this).parents('.question-box').data("value");    
+    // var reaction = -1;
+    // console.log(questionID);
+    // $.get(srcQuestionReadReaction, {question_id : questionID}, function(data){
+    //   console.log("foi?");
+    // });
+    // $.get(srcQuestionReadReaction, { question_id : questionID }, function(data){
+    //   console.log('q');
+    //   if(data==-1){
+    //     $.ajax({
+    //       headers: {
+    //         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+    //       },
+    //       url: srcQuestionInsertReaction,
+    //       dataType: "json",
+    //       type: "POST",
+    //       data: {
+    //         reaction: true,
+    //         question_id: questionID         
+    //       }, 
+    //       success: function(data){                    
+    //       },
+    //       error: function(){          
+    //       }
+    //     });
+
+    //   } else{
+    //     if(data==false){
+    //       $.ajax({
+    //         headers: {
+    //     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+    // },
+    //       url: srcQuestionUpdateReaction,
+    //       dataType: "json",
+    //       type: "PUT",
+    //       data: {
+    //         reaction: true,
+    //         question_id: questionID
+    //       },
+    //       success: function(data){          
+    //       },
+    //       error: function(){
+    //       }     
+    //       }); 
+    //     }
+    //   }
+    //   $.get(srcQuestionReadReactionCounting, { question_id : questionID }, function(data){
+    //       $('#question-downvotes-' + questionID).html(data[0]);    
+    //       $('#question-upvotes-' + questionID).html(data[1]);
+    //       $('#question-progress-bar-like-'+questionID).width(data[2]+'%');
+    //       $('#question-progress-bar-dislike-'+questionID).width(data[3]+'%');
+  		// });        
+    // });
   });
 
   $('.question-thumbs-down').click(function (){    

@@ -13,157 +13,112 @@
 Route::get('/', function () {
     return view('welcome');
 });
-
 Auth::routes();
 
-Route::get('/home', 'HomeController@index');
-Route::get('/busca', ['as'=>'search', 'uses'=>'Controller@general_search']);
+Route::get('/home', function(){
+		return view('home');
+});
 
-/**
- * 	Location
- * 
- *  */
-Route::get('api/dependent-dropdown', ['as'=>'location.country', 'uses'=>'LocationController@index']);
-Route::get('api/get-state-list', ['as'=>'location.state', 'uses'=> 'LocationController@getStateList']);
-Route::get('api/get-city-list', ['as'=>'location.city', 'uses'=> 'LocationController@getCityList']);
+Route::prefix('questao')->group(function(){
+	Route::namespace('Question')->group(function(){
+		Route::get('/', 'QuestionController@index')
+			->name('question.index');
 
+		Route::post('/', 'QuestionController@store')
+			->name('question.store');
 
-/**
- * 	Reaction
- * 
- * 	*/
-Route::get('/question_reaction/{id}', ['as'=>'question.reaction', 'uses'=>'ReactionController@get_question_reactions']);
+		Route::get('/criar', 'QuestionController@create')
+			->name('question.create');
 
+		Route::get('/{question_id}', 'QuestionController@show')
+			->name('question.show');
 
-/**
-	 * Comments
-	 * 
-	 * */
-	Route::group(['prefix'=>'comment'], function(){
-		Route::get('/', ['as'=>'comment.index', 'uses'=>'CommentController@index']);
-		Route::get('/criar', ['as'=>'comment.create', 'uses'=>'CommentController@create']);
-		Route::post('/', ['as'=>'comment.store', 'uses'=>'CommentController@store']);
-		Route::get('/mostrar', ['as'=>'comment.show', 'uses'=>'CommentController@show']);
-		Route::get('/{id}/editar', ['as'=>'comment.edit', 'uses'=>'CommentController@edit']);
-		Route::put('/atualizar/', ['as'=>'comment.update', 'uses'=>'CommentController@update']);
-		Route::post('/deletar', ['as' => 'comment.delete', 'uses'=>'CommentController@destroy']);
-		Route::post('/inserirReacao', ['as'=>'comment.insertReaction', 'uses'=>'CommentController@insertReaction']);
-		Route::get('/lerReacaoAvaliacoes', ['as'=>'comment.readReaction', 'uses'=>'CommentController@readReaction']);	
-		Route::put('/alterarAvaliacaoProposta', ['as'=>'comment.updateReaction', 'uses'=>'CommentController@updateReaction']);
-		Route::get('/lerContagemReacoes', ['as'=>'comment.readReactionCounting', 'uses'=>'CommentController@readReactionCounting']);
-		Route::post('/denunciar', ['as'=>'comment.report', 'uses'=>'CommentController@report']);
+		Route::get('/{question_id/editar', 'QuestionController@edit')
+			->name('question.edit');
 
+		Route::put('/{question_id}/atualizar', 'QuestionController@update')
+			->name('question.update');
 
-		Route::get('/content', ['as'=>'comment.content', 'uses'=>'CommentController@showCommentContent']);
-		//Route::get('/lerAvaliacao', ['as'=>'comment.getRating', 'uses'=>'ProposalController@getRating']);
+		Route::delete('{question_id}/deletar', 'QuestionController@destroy')
+			->name('question.delete');
+
+		Route::get('/buscar', 'QuestionController@search')
+			->name('question.search');
+		/**
+		 * 	Reactions
+		 * */
+		Route::post('/{question_id}/reaction/', 'QuestionReactionController@store')
+			->name('question.reaction.store');
+		Route::get('/{question_id}/reaction/{user_id}', 'QuestionReactionController@show')
+			->name('question.reaction.show');
+		Route::post('/{question_id}/reaction/', 'QuestionReactionController@update')
+			->name('question.reaction.update');
+		Route::delete('/{question_id}/reaction/', 'QuestionReactionController@delete')
+			->name('question.reaction.delete');
 	});
 
-/**
-	 *	Proposal/Propostas
-	 * 
-	 */
+	Route::namespace('Proposal')->group(function(){
+		Route::prefix('/{question_id}')->group(function(){
+			Route::get('/', 'ProposalController@index')
+				->name('proposal.index');
 
-	//Route::group(['prefix'=>'proposal'], function(){
-		// Route::get('/', ['as' => 'proposal.index', 'uses'=>'ProposalController@index']);
-		// Route::get('/criar', ['as'=>'proposal.create', 'uses'=>'ProposalController@create']);
-		// Route::post('/', ['as'=>'proposal.store', 'uses'=>'ProposalController@store']);
-		// Route::get('/mostrar', ['as'=>'proposal.show', 'uses'=>'ProposalController@show']);
-		// Route::get('/{id}/editar', ['as'=>'proposal.edit', 'uses'=>'ProposalController@edit']);
-		// Route::put('/{id}/atualizar', ['as'=>'proposal.update', 'uses'=>'ProposalController@update']);
-		// Route::delete('/deletar', ['as' => 'proposal.delete', 'uses'=>'ProposalController@destroy']);
-		// Route::get('/buscar', ['as'=>'proposal.search', 'uses'=>'ProposalController@search']);
+			Route::post('/', 'ProposalController@store')
+				->name('proposal.store');
 
-		// Route::post('/inserirReacao', ['as'=>'proposal.insertReaction', 'uses'=>'ProposalController@insertReaction']);
-		// Route::get('/lerReacaoAvaliacoes', ['as'=>'proposal.readReaction', 'uses'=>'ProposalController@readReaction']);	
-		// Route::put('/alterarAvaliacaoProposta', ['as'=>'proposal.updateReaction', 'uses'=>'ProposalController@updateReaction']);
-		// Route::get('/lerAvaliacao', ['as'=>'proposal.getAvgReactions', 'uses'=>'ProposalController@getAverageReactions']);
-		// Route::post('/denunciar', ['as'=>'proposal.report', 'uses'=>'ProposalController@report']);
-	//});
+			Route::get('/proposta/{proposal_id}', 'ProposalController@show')
+				->name('proposal.show');
+
+			Route::put('/proposta/{proposal_id}/atualizar', 'ProposalController@update')
+				->name('proposal.update');
+
+			Route::delete('proposta/{proposal_id}/deletar', 'ProposalController@destroy')
+				->name('proposal.delete');
+
+			/**
+			 * 	Reactions
+			 * */
+			Route::post('/reaction/', 'ProposalReactionController@store')
+				->name('proposal.reaction.store');
+			Route::get('/reaction/{user_id}', 'ProposalReactionController@show')
+				->name('proposal.reaction.show');
+			Route::post('/reaction/', 'ProposalReactionController@update')
+				->name('proposal.reaction.update');
+			Route::delete('/reaction/', 'ProposalReactionController@delete')
+				->name('proposal.reaction.delete');
+		});
+		Route::get('/buscar', 'ProposalController@search')
+			->name('proposal.search');
+	});
+
+	Route::namespace('Comment')->group(function(){
+		Route::prefix('/{question_id}/comentario')->group(function(){
+			Route::get('/', 'CommentController@index')
+				->name('comment.index');
+
+			Route::get('/{comentario_id}', 'CommentController@show')
+				->name('comment.show');
+
+			Route::post('/', 'CommentController@store')
+				->name('comment.store');
+
+			Route::put('/{comentario_id}/atualizar', 'CommentController@update')
+				->name('comment.update');
+
+			Route::delete('/{commentario_id}/deletar', 'CommentController@destroy')
+				->name('comment.delete');
+		});
 
 
-Route::prefix('question')->group(function(){
-	Route::get('/', 'QuestionController@index')->name('question.index');
-	Route::post('/', 'QuestionController@store')->name('question.store');
-	Route::get('/criar', 'QuestionController@create')->name('question.create');
-	Route::get('/{id}/', 'QuestionController@show')->name('question.show')->middleware('auth');
 
-	Route::get('/{id}/editar', 'QuestionController@edit')->name('question.edit');
-	Route::put('/{id}/atualizar', 'QuestionController@update')->name('question.update');
-	Route::delete('/deletar', 'QuestionController@destroy')->name('question.delete');
-	Route::get('/buscar', 'QuestionController@search')->name('question.search');
-	
-	/**
-	 * Question Reactions
-	 * */
-	Route::post('/inserirReacao', 'QuestionController@insertReaction')->name('question.insertReaction');
-	Route::get('/lerReacaoAvaliacoesQ', 'QuestionController@readReaction')->name('question.readReaction');	
-	Route::put('/alterarAvaliacaoProposta', 'QuestionController@updateReaction')->name('question.updateReaction');	
-	Route::get('/lerContagemReacoes', 'QuestionController@readReactionCounting')->name('question.readReactionCounting');
-	//Ordenar questões
-	Route::post('/ordenarQuestoes', ['as'=>'question.sort', 'uses'=>'QuestionController@sortQuestions']);
-	Route::post('/denunciar', ['as'=>'question.report', 'uses'=>'QuestionController@report']);
+		Route::prefix('/{question_id}/proposta/{proposal_id}/comentario')->group(function(){			
 
-	Route::prefix('/proposal')->group(function(){
-		Route::get('/', 'ProposalController@index')->name('proposal.index');
-		Route::get('/criar', 'ProposalController@create')->name('proposal.create');
-		Route::post('/', 'ProposalController@store')->name('proposal.store');
-		Route::get('/mostrar/', 'ProposalController@show')->name('proposal.show');
-		Route::get('/editar/', 'ProposalController@edit')->name('proposal.edit');
-		Route::get('/atualizar/', 'ProposalController@update')->name('proposal.update');
-		Route::delete('/deletar/', 'ProposalController@destroy')->name('proposal.delete');
-		Route::get('/buscar', 'ProposalController@search')->name('proposal.search');
-		Route::post('/inserirReacao', 'ProposalController@insertReaction')->name('proposal.insertReaction');
-		Route::get('/lerReacaoAvaliacoes', 'ProposalController@readReaction')->name('proposal.readReaction');
-		Route::put('/alterarAvaliacaoProposta', 'ProposalController@updateReaction')->name('proposal.updateReaction');
-		Route::get('/lerAvaliacao', 'ProposalController@getAverageReactions')->name('proposal.getAvgReactions');	
-		Route::post('/denunciar', ['as'=>'proposal.report', 'uses'=>'ProposalController@report']);
+		});
+
 
 	});
 });
 
-Route::prefix('comment')->group(function(){
-		Route::get('/', 'CommentController@index')->name('comment.index');
-		Route::get('/criar', 'CommentController@create')->name('comment.create');
-		Route::post('/', 'CommentController@store')->name('comment.store');
-		Route::get('/mostrar/', 'CommentController@show')->name('comment.show');
-		Route::get('/editar/', 'CommentController@edit')->name('comment.edit');
-		Route::get('/atualizar/', 'CommentController@update')->name('comment.update');
-		Route::delete('/deletar/', 'CommentController@destroy')->name('comment.delete');
-		Route::get('/buscar', 'CommentController@search')->name('comment.search');
-		Route::post('/inserirReacao', 'CommentController@insertReaction')->name('comment.insertReaction');
-		Route::get('/lerReacaoAvaliacoes', 'CommentController@readReaction')->name('comment.readReaction');
-		Route::put('/alterarAvaliacaoProposta', 'CommentController@updateReaction')->name('comment.updateReaction');
-		Route::get('/lerAvaliacao', 'CommentController@getAverageReactions')->name('comment.getAvgReactions');	
-		Route::post('/denunciar', ['as'=>'comment.report', 'uses'=>'CommentController@report']);
-});
 
-/**
- *	Question/Questão
- * 
- */
-
-Route::group(['prefix'=>'question'], function(){
-	// Route::get('/', ['as' => 'question.index', 'uses'=>'QuestionController@index']);
-	// Route::post('/', ['as'=>'question.store', 'uses'=>'QuestionController@store']);
-	// Route::get('/criar', ['as'=>'question.create', 'uses'=>'QuestionController@create']);
-	// Route::get('/{id}/', ['as'=>'question.show', 'uses'=>'QuestionController@show']);
-	// Route::get('/{id}/editar', ['as'=>'question.edit', 'uses'=>'QuestionController@edit']);
-	// Route::put('/{id}/atualizar', ['as'=>'question.update', 'uses'=>'QuestionController@update']);
-	// Route::delete('/deletar', ['as' => 'question.delete', 'uses'=>'QuestionController@destroy']);
-	// Route::get('/buscar', ['as'=>'question.search', 'uses'=>'QuestionController@search']);
-
-	//Reactions
-	// Route::post('/inserirReacao', ['as'=>'question.insertReaction', 'uses'=>'QuestionController@insertReaction']);
-	// Route::get('/lerReacaoAvaliacoes', ['as'=>'question.readReaction', 'uses'=>'QuestionController@readReaction']);	
-	// Route::put('/alterarAvaliacaoProposta', ['as'=>'question.updateReaction', 'uses'=>'QuestionController@updateReaction']);
-	// Route::get('/lerContagemReacoes', ['as'=>'question.readReactionCounting', 'uses'=>'QuestionController@readReactionCounting']);
-
-	// //Ordenar questões
-	// Route::post('/ordenarQuestoes', ['as'=>'question.sort', 'uses'=>'QuestionController@sortQuestions']);
-	// Route::post('/denunciar', ['as'=>'question.report', 'uses'=>'QuestionController@report']);	
-
-	
-});
 
 /**
  * 	Specialty/Especialidades
@@ -184,22 +139,11 @@ Route::group(['prefix' => 'specialty'], function(){
  *  
  */
 	
-Route::group(['prefix' => 'user'], function(){
-	Route::get('/{id}/profile', ['as'=>'user.profile', 'uses'=>'UserController@show']);
-	Route::get('/{id}/edit', ['as'=>'user.edit', 'uses'=>'UserController@edit']);
-	
-	Route::post('/', ['as'=>'user.store', 'uses'=>'UserController@store']);
-	Route::get('/{id}/show', ['as'=>'user.show', 'uses'=>'UserController@show']);
-	Route::post('/{id}delete', ['as'=>'user.delete', 'uses'=>'UserController@delete']);
-	Route::get('/create', ['as'=>'user.create', 'uses'=>'UserController@create']);
-	Route::get('/posts', ['as'=>'user.posts', 'uses'=>'UserController@posts']);
-
-	Route::put('/{id}/update1', ['as'=>'user.update_contact_info', 'uses'=>'UserController@update_contact_info']);
-	Route::put('/{id}/update2', ['as'=>'user.update_profile_info', 'uses'=>'UserController@update_profile_info']);
-	
-	Route::put('/{id}/update4', ['as'=>'user.update_privacy_info', 'uses'=>'UserController@update_privacy_info']);
-
-	Route::post('/{id}/update3', ['as'=>'user.add_specialty_info', 'uses'=>'UserController@add_specialty_info']);
-	Route::post('/{id}/update5', ['as'=>'user.remove_specialty_info', 'uses'=>'UserController@remove_specialty_info']);
-	Route::get('/search', ['as'=>'user.search', 'uses'=>'UserController@search']);
+Route::namespace('User')->group(function(){
+	Route::prefix('usuario')->group(function(){		
+		Route::prefix('/{user_id}')->group(function() {
+			Route::get('/perfil/', 'UserController@show')->name('user.profile');
+			Route::get('/editar/', 'UserController@edit')->name('user.edit');
+		});
+	});
 });

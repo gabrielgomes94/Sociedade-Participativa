@@ -16,7 +16,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password', 'gender', 'city', 'state', 'country', 'type', 
+        'name', 'email', 'password', 'gender', 'birthday', 'city', 'state', 'country', 'type', 
     ];
 
     /**
@@ -46,9 +46,7 @@ class User extends Authenticatable
         return $this->belongsToMany('App\Question', 'question_reactions');
     }
 
-    public function moderator_question(){
-        return $this->belongsToMany('App\Question', 'moderator_questions');
-    }
+    
 
     public function specialties(){        
         return $this->belongsToMany('App\Specialty', 'specialty_user');

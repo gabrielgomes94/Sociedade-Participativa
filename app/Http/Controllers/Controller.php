@@ -43,7 +43,4 @@ class Controller extends BaseController
         }
         return 100*$rating;
     }
-
-    public static function general_search(Request $request){
-    }
 }
